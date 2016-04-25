@@ -70,9 +70,12 @@ def encrypt(e, n):
 			input = (line.rstrip()).split('|')
 			for x in range(0, len(input)):
 				for y in range(0, len(input[x])):
-					output += str(rsa(ord(input[x][y]), e,n)) + ","
-					#output += '{:02x}'.format(rsa(ord(input[x][y]), e,n))			
-				output += '|'									
+					output += str(rsa(ord(input[x][y]), e,n))
+					if y != len(input[x])-1:
+						output += ","
+					#output += '{:02x}'.format(rsa(ord(input[x][y]), e,n))
+				output += '|'
+		output = output[:-1] # remove trailing pipe
 		print(output)
 	f = open('output.txt', 'w')
 	f.write(output)
@@ -83,10 +86,17 @@ def decrypt(d, n):
 		for line in my_file:
 			input = (line.rstrip()).split('|')
 			for x in range(0, len(input)):
-				for y in range(0, int(len(input[x])/2)):
-					g = str(input[x][y*2]) + str(input[x][(y*2)+1]) 
-					output += str(rsa(int(g,16),d,n)) + ","
-				output += '|'									
+				val = input[x].split(',')
+
+				for y in range(0, len(val)):
+					g = str(val[y])
+					output += str(chr(rsa(int(g),d,n)))
+					#if y != len(val)-1:
+						#output += ","
+				if x%3 == 2:
+					output += '\n'
+				else:
+					output += '|'
 		print(output)
 	
 def main():
@@ -109,7 +119,7 @@ def requestInput():
 			validate = validateKeys(p,q)
 		x = generateKeys(p,q)
 		print("Public:("+str(x[0][0])+","+str(x[0][1])+") Private:("+str(x[1][0])+","+str(x[1][1])+")")
-		character = 'r'
+		character = 'c'
 		myVal = ord(character)
 		y = pow(myVal,x[0][0],x[0][1])
 		print(character + " = " + str(myVal) + " > " + str(y) + " > " + str(pow(y,x[1][0],x[1][1])) + " > " + chr(pow(y,x[1][0],x[1][1])))		

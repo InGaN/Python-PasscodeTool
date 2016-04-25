@@ -61,9 +61,9 @@ def rsa(integer, exponent, modulo):
 	return x
 
 def encrypt(e, n):
-	with open(sys.argv[2], 'r') as my_file:
-		for line in my_file:
-			print(line)
+	#with open(sys.argv[2], 'r') as my_file:
+	#	for line in my_file:
+	#		print(line)
 	with open(sys.argv[2], 'r') as my_file:
 		output = ''
 		for line in my_file:
@@ -122,8 +122,12 @@ def requestInput():
 		character = 'c'
 		myVal = ord(character)
 		y = pow(myVal,x[0][0],x[0][1])
-		print(character + " = " + str(myVal) + " > " + str(y) + " > " + str(pow(y,x[1][0],x[1][1])) + " > " + chr(pow(y,x[1][0],x[1][1])))		
-		encrypt(x[0][0],x[0][1])
+		newVal = chr(pow(y,x[1][0],x[1][1]))
+		print(character + " = " + str(myVal) + " > " + str(y) + " > " + str(pow(y,x[1][0],x[1][1])) + " > " + newVal)
+		if character == newVal:
+			encrypt(x[0][0],x[0][1])
+		else:
+			print("Encryption failed, choose new prime numbers...")
 	elif(sys.argv[1] == "-h"):
 		print("-d file | decrypt file")
 		print("-e file | encrypt file")

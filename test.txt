@@ -1,2 +1,5 @@
 currentName|username|password1
 programName|username|pass2
+newName|user|mypass
+websiteName|name|$837#*
+test|myUser|MyPass%
